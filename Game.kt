@@ -123,8 +123,6 @@ class Game {
         } else {
             goFish(player)
         }
-    
-        checkWinOrLose(player)
     }
     
     private fun exchangeWords(player: Player, targetPlayer: Player, word: String, hashedWord: String) {
@@ -153,13 +151,6 @@ class Game {
         println("${player.name} loses a skeleton key. Now has ${player.skeletonKeys} skeleton keys.")
     }
     
-    private fun checkWinOrLose(player: Player) {
-        if (!players.contains(player)) {
-            println("${player.name} has lost the game.")
-        } else if (player.skeletonKeys >= 3) {
-            println("${player.name} has won the game!")
-        }
-    }
 }
 
 /**
