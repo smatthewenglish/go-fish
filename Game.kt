@@ -68,11 +68,11 @@ class Game {
      */
     fun checkWinOrLose(player: Player): Boolean {
         when {
-            player.skelletonKeys <= 0 -> {
+            player.skeletonKeys <= 0 -> {
                 println("${player.name} lost the game!")
                 return true
             }
-            player.skelletonKeys >= 3 -> {
+            player.skeletonKeys >= 3 -> {
                 println("${player.name} won the game!")
                 return true
             }
@@ -95,7 +95,7 @@ class Game {
                     players = players.filter { it != player } // Remove the losing player
                     println("${player.name} has lost the game.")
                 }
-                if (players.size == 1 || player.skelletonKeys >= 3) {
+                if (players.size == 1 || player.skeletonKeys >= 3) {
                     gameFinished = true
                     break
                 }
@@ -146,7 +146,7 @@ class Game {
     
             if (player.checkForPair(word)) {
                 player.increaseSkeletonKeys()
-                println("${player.name} now has ${player.skelletonKeys} skeleton keys.")
+                println("${player.name} now has ${player.skeletonKeys} skeleton keys.")
                 player.removeAllInstancesOfWord(word)
             }
     
@@ -162,7 +162,7 @@ class Game {
             }
     
             player.decreaseSkeletonKeys()
-            println("${player.name} loses a skeleton key. Now has ${player.skelletonKeys} skeleton keys.")
+            println("${player.name} loses a skeleton key. Now has ${player.skeletonKeys} skeleton keys.")
         }
     }
 }
@@ -173,7 +173,7 @@ class Game {
 class Player(val name: String) {
 
     // Start with two, if you get the three you win, if you get to zero you lose.
-    var skelletonKeys: Int = 2
+    var skeletonKeys: Int = 2
     lateinit var wordList: MutableList<String>
 
     /**
@@ -204,11 +204,11 @@ class Player(val name: String) {
     }
 
     fun increaseSkeletonKeys() {
-        skelletonKeys++
+        skeletonKeys++
     }
 
     fun decreaseSkeletonKeys() {
-        skelletonKeys--
+        skeletonKeys--
     }
 
     fun removeAllInstancesOfWord(word: String) {
