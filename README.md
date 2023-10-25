@@ -3,7 +3,7 @@
 A word-based game where players exchange words from their hand with an objective to create pairs.
 Words are secured with a hashing mechanism for added security.
 
-## How to Play
+## How to Play?
 
 The game initializes by assigning a random set of words to each player.
 On their turn, a player chooses a word and asks another player for the hashed version of a word.
