@@ -16,14 +16,14 @@ class Game {
         const val WORDS_PER_PLAYER: Int = 5
     }
 
-    var players: List<Player> // List of all players participating in the game
+    var players: MutableList<Player> // List of all players participating in the game
     var allWords: List<String> // The entire wordlist used for the game
     var drawPile: MutableList<String> // Pile from which players can draw words
 
     lateinit var seedWord: String // Seed word used for hashing purposes
 
     constructor(players: List<Player>, allWords: List<String>) {
-        this.players = players
+        this.players = players.toMutableList()
         this.allWords = allWords
         drawPile = mutableListOf()
     }
@@ -75,8 +75,6 @@ class Game {
                 takeTurnFor(player)
                 
                 if (player.skeletonKeys >= 3) {
-                    println("${player.name} has won the game!")
-                    println("Game Over!")
                     return
                 }
             }
@@ -122,6 +120,19 @@ class Game {
             exchangeWords(player, targetPlayer, word, hashedWord)
         } else {
             goFish(player)
+        }
+    
+        checkWinOrLose(player)
+    }
+
+    private fun checkWinOrLose(player: Player) {
+        if (player.skeletonKeys <= 0) {
+            println("${player.name} has lost the game.")
+            players.remove(player)
+        } else if (player.skeletonKeys >= 3) {
+            println("${player.name} has won the game!")
+            println("Game Over!")
+            players.clear() // Remove all remaining players from the game
         }
     }
     
