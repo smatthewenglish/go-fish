@@ -81,19 +81,28 @@ class Game {
     }
 
     /**
-     * Executes the main game loop where players take turns until someone wins or loses.
+     * Executes the main game loop where players take turns until someone wins.
+     * Eliminated players are removed from the game, and the game continues with the remaining players.
      */
     fun playGame(seedWord: String) {
         initialize(seedWord)
         var gameFinished = false
         while (!gameFinished) {
-            for (player in players) {
+            val remainingPlayers = players.toList() // Create a copy of the player list to iterate through
+            for (player in remainingPlayers) {
                 takeTurnFor(player)
                 if (checkWinOrLose(player)) {
+                    players = players.filter { it != player } // Remove the losing player
+                    println("${player.name} has lost the game.")
+                }
+                if (players.size == 1 || player.skelletonKeys >= 3) {
                     gameFinished = true
                     break
                 }
             }
+        }
+        if (players.size == 1) {
+            println("${players[0].name} has won the game!")
         }
         println("Game Over!")
     }
