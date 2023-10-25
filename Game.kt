@@ -102,7 +102,7 @@ class Game {
      * Generates a hash using the input word and the game's seed word.
      */
     fun hashWithSeed(input: String): String {
-        val combined = "$input:$this.seed"  // Combines input and seed with a separator
+        val combined = "$input:$this.seedWord"  // Combines input and seed with a separator
         val md = MessageDigest.getInstance("SHA-256")
         val digest = md.digest(combined.toByteArray())
         return digest.joinToString("") {
