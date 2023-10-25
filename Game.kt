@@ -1,19 +1,26 @@
+/**
+ * 
+ */
+class Player() {
+    // Each round starts by providing the players with a seed word. 
+    lateinit var seedWord: String
+
+    // Start with two, if you get the three you win, if you get to zero you lose.
+    var skelletonKeys: Int = 2
 
 
-class Player(val name: String) {
-    // Player's properties, e.g., score, health, etc.
-    var score: Int = 0
-
-    // Player's behaviors, e.g., move, jump, etc.
-    fun move() {
-        println("$name is moving!")
+    fun startRound(seedWord: String) {
+        this.seedWord = seedWord
     }
-    
-    fun jump() {
-        println("$name is jumping!")
+
+    fun guessWord(word: String): Boolean {
+        if (word == seedWord) {
+            return true
+        } else {
+            return false
+        }
     }
 
-    // Other methods related to the player...
 }
 
 class Game(val players: List<Player>) {
