@@ -1,4 +1,4 @@
-# Go Fish
+# Skeleton Key Game
 
 A word-based game where players exchange words from their hand with an objective to create pairs.
 Words are secured with a hashing mechanism for added security.
