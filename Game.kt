@@ -87,6 +87,7 @@ class Game {
     fun playGame(seedWord: String) {
         initialize(seedWord)
         var gameFinished = false
+        var winner: Player? = null // Track the winner
         while (!gameFinished) {
             val remainingPlayers = players.toList() // Create a copy of the player list to iterate through
             for (player in remainingPlayers) {
@@ -97,12 +98,15 @@ class Game {
                 }
                 if (players.size == 1 || player.skeletonKeys >= 3) {
                     gameFinished = true
+                    winner = player // Set the winner
                     break
                 }
             }
         }
-        if (players.size == 1) {
-            println("${players[0].name} has won the game!")
+        if (winner != null) {
+            println("${winner.name} has won the game!")
+        } else {
+            println("It's a draw!")
         }
         println("Game Over!")
     }
