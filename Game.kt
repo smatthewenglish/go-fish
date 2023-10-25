@@ -64,50 +64,25 @@ class Game {
     }
 
     /**
-     * Checks if a player has won or lost the game based on their skeleton key count.
-     */
-    fun checkWinOrLose(player: Player): Boolean {
-        when {
-            player.skeletonKeys <= 0 -> {
-                println("${player.name} lost the game!")
-                return true
-            }
-            player.skeletonKeys >= 3 -> {
-                println("${player.name} won the game!")
-                return true
-            }
-            else -> return false
-        }
-    }
-
-    /**
      * Executes the main game loop where players take turns until someone wins.
      * Eliminated players are removed from the game, and the game continues with the remaining players.
      */
     fun playGame(seedWord: String) {
         initialize(seedWord)
-        var gameFinished = false
-        var winner: Player? = null // Track the winner
-        while (!gameFinished) {
-            val remainingPlayers = players.toList() // Create a copy of the player list to iterate through
-            for (player in remainingPlayers) {
+        
+        while (players.size > 1) {
+            for (player in players.toList()) {
                 takeTurnFor(player)
-                if (checkWinOrLose(player)) {
-                    players = players.filter { it != player } // Remove the losing player
-                    println("${player.name} has lost the game.")
-                }
-                if (players.size == 1 || player.skeletonKeys >= 3) {
-                    gameFinished = true
-                    winner = player // Set the winner
-                    break
+                
+                if (player.skeletonKeys >= 3) {
+                    println("${player.name} has won the game!")
+                    println("Game Over!")
+                    return
                 }
             }
         }
-        if (winner != null) {
-            println("${winner.name} has won the game!")
-        } else {
-            println("It's a draw!")
-        }
+        
+        println("It's a draw!")
         println("Game Over!")
     }
 
@@ -135,38 +110,54 @@ class Game {
      */
     fun takeTurnFor(player: Player) {
         val word = player.getRandomWordFromHand()
-        val hashedWord = hashWithSeed(word) 
+        val hashedWord = hashWithSeed(word)
     
         val otherPlayers = players.filter { it != player }
         val targetPlayer = otherPlayers.shuffled().first()
     
         println("${player.name} asks ${targetPlayer.name} for: $hashedWord")
-        val targetPlayerHasMatchingWord: Boolean = askForHashedWord(targetPlayer, hashedWord)
+        val targetPlayerHasMatchingWord = askForHashedWord(targetPlayer, hashedWord)
     
         if (targetPlayerHasMatchingWord) {
-            println("${targetPlayer.name} hands over the word '$hashedWord' to ${player.name}.")
-            targetPlayer.removeWord(word)
-            player.addWordToHand(word)
-    
-            if (player.checkForPair(word)) {
-                player.increaseSkeletonKeys()
-                println("${player.name} now has ${player.skeletonKeys} skeleton keys.")
-                player.removeAllInstancesOfWord(word)
-            }
-    
+            exchangeWords(player, targetPlayer, word, hashedWord)
         } else {
-            println("${targetPlayer.name} says: Go fish, ${player.name}!")
-            val drawnWord = drawFromPile()
-            if (drawnWord == null) {
-                println("The draw pile is empty.")
-            } else {
-                val drawnWordHashed = hashWithSeed(word) 
-                println("${player.name} drew '$drawnWordHashed'.")
-                player.addWordToHand(drawnWord)
-            }
+            goFish(player)
+        }
     
-            player.decreaseSkeletonKeys()
-            println("${player.name} loses a skeleton key. Now has ${player.skeletonKeys} skeleton keys.")
+        checkWinOrLose(player)
+    }
+    
+    private fun exchangeWords(player: Player, targetPlayer: Player, word: String, hashedWord: String) {
+        println("${targetPlayer.name} hands over the word '$hashedWord' to ${player.name}.")
+        targetPlayer.removeWord(word)
+        player.addWordToHand(word)
+    
+        if (player.checkForPair(word)) {
+            player.increaseSkeletonKeys()
+            println("${player.name} now has ${player.skeletonKeys} skeleton keys.")
+            player.removeAllInstancesOfWord(word)
+        }
+    }
+    
+    private fun goFish(player: Player) {
+        val drawnWord = drawFromPile()
+        if (drawnWord == null) {
+            println("The draw pile is empty.")
+        } else {
+            val drawnWordHashed = hashWithSeed(drawnWord) // Fix the reference here
+            println("${player.name} drew '$drawnWordHashed'.")
+            player.addWordToHand(drawnWord)
+        }
+    
+        player.decreaseSkeletonKeys()
+        println("${player.name} loses a skeleton key. Now has ${player.skeletonKeys} skeleton keys.")
+    }
+    
+    private fun checkWinOrLose(player: Player) {
+        if (!players.contains(player)) {
+            println("${player.name} has lost the game.")
+        } else if (player.skeletonKeys >= 3) {
+            println("${player.name} has won the game!")
         }
     }
 }
