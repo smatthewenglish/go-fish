@@ -49,11 +49,18 @@ class Game {
     }
 
     private fun assignWordsToPlayers() {
+
         val shuffledWords = allWords.shuffled()
+        println("Total words available: ${shuffledWords.size}")
     
         players.forEachIndexed { playerIndex, player ->
+
             val startIndex = playerIndex * WORDS_PER_PLAYER
             val endIndex = startIndex + WORDS_PER_PLAYER
+
+            println("Assigning words from index $startIndex to $endIndex for player ${player.name}")
+
+
             val wordsForPlayer = shuffledWords.subList(startIndex, endIndex)
             player.dealHand(wordsForPlayer)
         }
@@ -65,7 +72,8 @@ fun main() {
     val player1 = Player("Sean")
     val player2 = Player("Greta")
 
-    val words = File("wordlist.csv").readLines()
+    val words = File("wordlist.csv").readText().split(",").map { it.trim() }
+
 
     val game = Game(listOf(player1, player2), words)
 
