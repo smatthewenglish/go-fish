@@ -4,7 +4,7 @@ import java.security.MessageDigest
 
 /**
  * The Game class represents a word-based game where players exchange words from 
- * their hand trying to create pairs.
+ * their hand trying to create pairs
  *
  * Author: Sean Matt English
  * Date: 2023-10-25
