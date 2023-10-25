@@ -46,11 +46,8 @@ class Game {
             val wordsForPlayer = mutableListOf<String>()
 
             repeat(WORDS_PER_PLAYER) {
-                if (shuffledWords.isNotEmpty()) {
-                    wordsForPlayer.add(shuffledWords.removeAt(0))
-                }
+                wordsForPlayer.add(shuffledWords.removeAt(0))
             }
-            
             player.dealHand(wordsForPlayer)
         }
         drawPile = shuffledWords 
@@ -75,15 +72,12 @@ class Game {
                 if (players.size <= 1) {
                     break // Exit the loop if there's only one player remaining
                 }
-                
                 takeTurnFor(player)
-                
                 if (player.skeletonKeys >= 3) {
                     return
                 }
             }
         }
-        
         if (players.isNotEmpty()) {
             println("It's a draw!")
             println("Game Over!")
