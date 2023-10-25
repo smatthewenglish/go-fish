@@ -159,7 +159,7 @@ class Game {
         if (drawnWord == null) {
             println("The draw pile is empty.")
         } else {
-            val drawnWordHashed = hashWithSeed(drawnWord) // Fix the reference here
+            val drawnWordHashed = hashWithSeed(drawnWord)
             println("${player.name} drew '$drawnWordHashed'.")
             player.addWordToHand(drawnWord)
         }
