@@ -1,58 +1,75 @@
+import java.io.File
+import kotlin.random.Random
+
 /**
  * 
  */
-class Player() {
-    // Each round starts by providing the players with a seed word. 
-    lateinit var seedWord: String
+class Player {
 
+    var name: String
     // Start with two, if you get the three you win, if you get to zero you lose.
     var skelletonKeys: Int = 2
 
+    lateinit var wordList: List<String>
 
-    fun startRound(seedWord: String) {
-        this.seedWord = seedWord
+    constructor(name: String) {
+        this.name = name
     }
 
-    fun guessWord(word: String): Boolean {
-        if (word == seedWord) {
-            return true
-        } else {
-            return false
-        }
+    fun dealHand(wordList: List<String>) {
+        this.wordList = wordList
+    }
+
+    fun hasWord(word: String): Boolean {
+        return wordList.contains(word)
     }
 
 }
 
-class Game(val players: List<Player>) {
-    // Game's properties, e.g., status, level, etc.
-    var status: String = "Not Started"
-    var level: Int = 1
+class Game {
+
+    companion object {
+        const val WORDS_PER_PLAYER: Int = 5
+    }
+
+    var players: List<Player>
+    var allWords: List<String>
+    lateinit var seedWord: String
+
+    constructor(players: List<Player>, allWords: List<String>) {
+        this.players = players
+        this.allWords = allWords
+    }
 
     // Start the game
-    fun start() {
-        status = "In Progress"
-        println("Game started!")
+    //fun initializeRound(seedWord: String) {
+    fun initializeRound() {
+        //this.seedWord = seedWord
+        assignWordsToPlayers()
     }
 
-    // End the game
-    fun end() {
-        status = "Finished"
-        println("Game ended!")
+    private fun assignWordsToPlayers() {
+        val shuffledWords = allWords.shuffled()
+    
+        players.forEachIndexed { playerIndex, player ->
+            val startIndex = playerIndex * WORDS_PER_PLAYER
+            val endIndex = startIndex + WORDS_PER_PLAYER
+            val wordsForPlayer = shuffledWords.subList(startIndex, endIndex)
+            player.dealHand(wordsForPlayer)
+        }
     }
-
-    // Other methods related to the game...
 }
 
 fun main() {
-    val player1 = Player("Alice")
-    val player2 = Player("Bob")
+
+    val player1 = Player("Sean")
+    val player2 = Player("Greta")
+
+    val words = File("wordlist.csv").readLines()
+
+    val game = Game(listOf(player1, player2), words)
+
     
-    val game = Game(listOf(player1, player2))
+    game.initializeRound()
 
-    game.start()
-
-    player1.move()
-    player2.jump()
-
-    game.end()
 }
