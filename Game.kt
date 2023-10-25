@@ -23,7 +23,6 @@ class Game {
         drawPile = mutableListOf()
     }
 
-    // Start the game
     fun initialize(seedWord: String) {
         this.seedWord = seedWord
         assignWordsToPlayers()
