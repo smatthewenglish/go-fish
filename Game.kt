@@ -72,6 +72,10 @@ class Game {
         
         while (players.size > 1) {
             for (player in players.toList()) {
+                if (players.size <= 1) {
+                    break // Exit the loop if there's only one player remaining
+                }
+                
                 takeTurnFor(player)
                 
                 if (player.skeletonKeys >= 3) {
@@ -80,8 +84,10 @@ class Game {
             }
         }
         
-        println("It's a draw!")
-        println("Game Over!")
+        if (players.isNotEmpty()) {
+            println("It's a draw!")
+            println("Game Over!")
+        }
     }
 
     /**
