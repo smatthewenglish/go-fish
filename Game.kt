@@ -107,8 +107,10 @@ class Game {
         if (players.isEmpty()) {
             println("It's a draw!")
             println("Game Over!")
+            return
         }
         println("${players[0].name} is the winner!")
+        println("Game Over!")
     }
 
     /**
