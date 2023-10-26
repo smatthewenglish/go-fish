@@ -76,6 +76,10 @@ class Game {
         if (targetPlayerHasMatchingWord) {
             exchangeWords(player, opponent, word, wordHashed)
         } else {
+            if (player.skeletonKeys == 0) {
+                println("${player.name} has no skeleton keys and cannot draw from the pile.")
+                return
+            }
             goFish(player)
         }
     }
