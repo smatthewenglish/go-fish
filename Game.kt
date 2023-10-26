@@ -68,6 +68,7 @@ class Game {
         val wordHashed: String = hashWithSeed(word)
     
         val opponentList: List<Player> = players.filter { listPlayer -> listPlayer != player }
+        println("opponentList.size: ${opponentList.size}")
         val opponent: Player = opponentList.shuffled().first()
     
         println("${player.name} asks ${opponent.name} for: $wordHashed")
@@ -93,6 +94,11 @@ class Game {
         
         while (players.size > 1) {
             for (player in players.toList()) {
+                if(players.size == 1){
+                    println("${player.name} has won the game!")
+                    println("Game Over!")
+                    return
+                }
                 takeTurnFor(player)
                 if (player.skeletonKeys == 0) {
                     players.remove(player)
