@@ -224,14 +224,14 @@ class Player(val name: String) {
  */
 fun main() {
 
-    val player1 = Player("Sean")
-    val player2 = Player("Jeff")
+    val player1 = Player("A")
+    val player2 = Player("B")
     //val players: MutableList<Player> = listOf(player1, player2).toMutableList()
-    val player3 = Player("Darsh")
-    val player4 = Player("Alice")
+    val player3 = Player("C")
+    val player4 = Player("D")
     //val players: MutableList<Player> = listOf(player1, player2, player3, player4).toMutableList()
-    val player5 = Player("Joe")
-    val player6 = Player("John")
+    val player5 = Player("E")
+    val player6 = Player("F")
     val players: MutableList<Player> = listOf(player1, player2, player3, player4, player5, player6).toMutableList()
 
     // Load words for the game from a CSV file
