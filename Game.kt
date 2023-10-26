@@ -95,8 +95,7 @@ class Game {
         while (players.size > 1) {
             for (player in players.toList()) {
                 if(players.size == 1){
-                    println("${player.name} has won the game!")
-                    println("Game Over!")
+                    printWinner(player)
                     return
                 }
                 takeTurnFor(player)
@@ -105,8 +104,7 @@ class Game {
                     println("${player.name} has lost the game, ${players.size} ${if (players.size == 1) "remains" else "remain"}.")
                 }
                 if (player.skeletonKeys == 3) {
-                    println("${player.name} has won the game!")
-                    println("Game Over!")
+                    printWinner(player)
                     return
                 }
             }
@@ -116,7 +114,14 @@ class Game {
             println("Game Over!")
             return
         }
-        println("${players[0].name} is the winner!")
+        printWinner(players[0])
+    }
+
+    /**
+     * Utility function to output the winner of the game
+     */
+    fun printWinner(player: Player) {
+        println("${player.name} is the winner!")
         println("Game Over!")
     }
 
