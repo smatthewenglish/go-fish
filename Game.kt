@@ -144,7 +144,7 @@ class Game {
     }
     
     private fun exchangeWords(player: Player, targetPlayer: Player, word: String, hashedWord: String) {
-        println("${targetPlayer.name} hands over the word '$hashedWord' to ${player.name}.")
+        println("${targetPlayer.name} hands over the word $hashedWord to ${player.name}.")
         targetPlayer.removeWord(word)
         player.addWordToHand(word)
     
