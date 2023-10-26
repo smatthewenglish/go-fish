@@ -67,7 +67,7 @@ class Game {
         val word: String = player.getRandomWordFromHand()
         val wordHashed: String = hashWithSeed(word)
     
-        val opponentList: List<Player> = players.filter { listPlayer -> listPlayer != player }
+        val opponentList: List<Player> = players.filter { listPlayer -> listPlayer != player && listPlayer.skeletonKeys > 0 }
         val opponent: Player = opponentList.shuffled().first()
     
         println("${player.name} asks ${opponent.name} for $wordHashed.")
