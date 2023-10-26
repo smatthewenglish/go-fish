@@ -106,7 +106,7 @@ class Game {
         if (currentPlayer.skeletonKeys == 0) {
             currentPlayers.remove(currentPlayer)
             println("${currentPlayer.name} has lost the game, ${currentPlayers.size} ${if (currentPlayers.size == 1) "player remains" else "players remain"}.")
-            playGame(currentPlayers, currentPlayerIndex)
+            playGame(currentPlayers, (currentPlayerIndex - 1) % currentPlayers.size)
         } else if (currentPlayer.skeletonKeys == 3) {
             printWinner(currentPlayer)
         } else {
