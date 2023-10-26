@@ -105,7 +105,7 @@ class Game {
     
         if (currentPlayer.skeletonKeys == 0) {
             currentPlayers.remove(currentPlayer)
-            println("${currentPlayer.name} has lost the game, ${currentPlayers.size} ${if (currentPlayers.size == 1) "remains" else "remain"}.")
+            println("${currentPlayer.name} has lost the game, ${currentPlayers.size} ${if (currentPlayers.size == 1) "player remains" else "players remain"}.")
             playGame(currentPlayers, currentPlayerIndex)
         } else if (currentPlayer.skeletonKeys == 3) {
             printWinner(currentPlayer)
@@ -144,7 +144,7 @@ class Game {
     }
     
     private fun exchangeWords(player: Player, targetPlayer: Player, word: String, hashedWord: String) {
-        println("${targetPlayer.name} hands over the word $hashedWord to ${player.name}.")
+        println("${targetPlayer.name} hands over $hashedWord to ${player.name}.")
         targetPlayer.removeWord(word)
         player.addWordToHand(word)
     
@@ -224,9 +224,13 @@ fun main() {
 
     val player1 = Player("Sean")
     val player2 = Player("Jeff")
+    //val players: MutableList<Player> = listOf(player1, player2).toMutableList()
     val player3 = Player("Darsh")
     val player4 = Player("Alice")
-    val players: MutableList<Player> = listOf(player1, player2, player3, player4).toMutableList()
+    //val players: MutableList<Player> = listOf(player1, player2, player3, player4).toMutableList()
+    val player5 = Player("Joe")
+    val player6 = Player("John")
+    val players: MutableList<Player> = listOf(player1, player2, player3, player4, player5, player6).toMutableList()
 
     // Load words for the game from a CSV file
     val words = File("wordlist.csv").readText().split(",").map { it.trim() }
