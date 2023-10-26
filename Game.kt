@@ -89,9 +89,6 @@ class Game {
         
         while (players.size > 1) {
             for (player in players.toList()) {
-                if (players.size == 1) {
-                    break
-                }
                 takeTurnFor(player)
                 if (player.skeletonKeys == 0) {
                     players.remove(player)
