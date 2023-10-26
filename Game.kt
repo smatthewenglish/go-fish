@@ -67,14 +67,14 @@ class Game {
         val word = player.getRandomWordFromHand()
         val hashedWord = hashWithSeed(word)
     
-        val otherPlayers = players.filter { listPlayer -> listPlayer != player }
-        val targetPlayer = otherPlayers.shuffled().first()
+        val opponentList = players.filter { listPlayer -> listPlayer != player }
+        val opponent = opponentList.shuffled().first()
     
-        println("${player.name} asks ${targetPlayer.name} for: $hashedWord")
-        val targetPlayerHasMatchingWord = askForHashedWord(targetPlayer, hashedWord)
+        println("${player.name} asks ${opponent.name} for: $hashedWord")
+        val targetPlayerHasMatchingWord = askForHashedWord(opponent, hashedWord)
     
         if (targetPlayerHasMatchingWord) {
-            exchangeWords(player, targetPlayer, word, hashedWord)
+            exchangeWords(player, opponent, word, hashedWord)
         } else {
             goFish(player)
         }
