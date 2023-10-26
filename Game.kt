@@ -40,10 +40,10 @@ class Game {
      * Assign words to players randomly from a shuffled wordlist.
      */
     private fun assignWordsToPlayers() {
-        val shuffledWords = allWords.shuffled().toMutableList()
+        val shuffledWords: MutableList<String> = allWords.shuffled().toMutableList()
 
         players.forEach { player -> 
-            val wordsForPlayer = mutableListOf<String>()
+            val wordsForPlayer: MutableList<String> = mutableListOf<String>()
 
             repeat(WORDS_PER_PLAYER) {
                 wordsForPlayer.add(shuffledWords.removeAt(0))
