@@ -70,7 +70,7 @@ class Game {
         val opponentList: List<Player> = players.filter { listPlayer -> listPlayer != player }
         val opponent: Player = opponentList.shuffled().first()
     
-        println("${player.name} asks ${opponent.name} for: $wordHashed")
+        println("${player.name} asks ${opponent.name} for: $wordHashed.")
         val targetPlayerHasMatchingWord: Boolean = askForHashedWord(opponent, wordHashed)
     
         if (targetPlayerHasMatchingWord) {
@@ -211,7 +211,7 @@ class Player(val name: String) {
 
     fun decreaseSkeletonKeys() {
         skeletonKeys--
-        println("${name} loses a skeleton key. Now has skeleton ${if (skeletonKeys == 1) "key" else "keys"}.")
+        println("${name} loses a skeleton key. Now has ${skeletonKeys} skeleton ${if (skeletonKeys == 1) "key" else "keys"}.")
     }
 
 }
