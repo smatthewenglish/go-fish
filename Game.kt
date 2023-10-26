@@ -89,31 +89,26 @@ class Game {
      * Eliminated players are removed from the game, and the game continues with the remaining players.
      */
     fun playGame(currentPlayers: MutableList<Player>, currentPlayerIndex: Int = 0) {
-        // Base conditions
-        if (currentPlayers.isEmpty()) {
-            println("It's a draw!")
-            println("Game Over!")
-            return
-        }
+        // Check for winner
         if (currentPlayers.size == 1) {
             printWinner(currentPlayers[0])
             return
         }
         // Get current player
-        val currentPlayer = currentPlayers[currentPlayerIndex]
+        val currentPlayer: Player = currentPlayers[currentPlayerIndex]
         takeTurnFor(currentPlayer)
     
         if (currentPlayer.skeletonKeys == 0) {
             currentPlayers.remove(currentPlayer)
             println("${currentPlayer.name} has lost the game, ${currentPlayers.size} ${if (currentPlayers.size == 1) "player remains" else "players remain"}.")
 
-            val nextIndex = currentPlayerIndex % currentPlayers.size
+            val nextIndex: Int = currentPlayerIndex % currentPlayers.size
             playGame(currentPlayers, nextIndex)
         } else if (currentPlayer.skeletonKeys == 3) {
             printWinner(currentPlayer)
         } else {
             // Move to next player or wrap around
-            val nextIndex = (currentPlayerIndex + 1) % currentPlayers.size
+            val nextIndex: Int = (currentPlayerIndex + 1) % currentPlayers.size
             playGame(currentPlayers, nextIndex)
         }
     }
@@ -130,9 +125,9 @@ class Game {
      * Generates a hash using the input word and the game's seed word.
      */
     fun hashWithSeed(input: String): String {
-        val combined = "$input:$this.seedWord"  // Combines input and seed with a separator
-        val md = MessageDigest.getInstance("SHA-256")
-        val digest = md.digest(combined.toByteArray())
+        val combined: String = "$input:$this.seedWord"  // Combines input and seed with a separator
+        val md: MessageDigest = MessageDigest.getInstance("SHA-256")
+        val digest: ByteArray = md.digest(combined.toByteArray())
         return digest.joinToString("") {
             "%02x".format(it)
         }
@@ -224,24 +219,24 @@ class Player(val name: String) {
  */
 fun main() {
 
-    val player1 = Player("A")
-    val player2 = Player("B")
+    val player1: Player = Player("A")
+    val player2: Player = Player("B")
     //val players: MutableList<Player> = listOf(player1, player2).toMutableList()
-    val player3 = Player("C")
-    val player4 = Player("D")
+    val player3: Player = Player("C")
+    val player4: Player = Player("D")
     //val players: MutableList<Player> = listOf(player1, player2, player3, player4).toMutableList()
-    val player5 = Player("E")
-    val player6 = Player("F")
+    val player5: Player = Player("E")
+    val player6: Player = Player("F")
     val players: MutableList<Player> = listOf(player1, player2, player3, player4, player5, player6).toMutableList()
 
     // Load words for the game from a CSV file
-    val words = File("wordlist.csv").readText().split(",").map { it.trim() }
+    val words: List<String> = File("wordlist.csv").readText().split(",").map { it.trim() }
 
-    val game = Game(players, words)
+    val game: Game = Game(players, words)
 
     // Load seed words and select a random one for hashing purposes
-    val seedWords = File("seedlist.csv").readText().split(",").map { it.trim() }
-    val randomSeedWord = seedWords.shuffled().first()
+    val seedWords: List<String> = File("seedlist.csv").readText().split(",").map { it.trim() }
+    val randomSeedWord: String = seedWords.shuffled().first()
     game.initialize(randomSeedWord)
     game.playGame(players)
 
