@@ -159,7 +159,7 @@ class Game {
             println("The draw pile is empty.")
         } else {
             val drawnWordHashed: String = hashWithSeed(drawnWord)
-            println("${player.name} drew '$drawnWordHashed'.")
+            println("${player.name} drew $drawnWordHashed.")
             player.addWordToHand(drawnWord)
         }
         player.decreaseSkeletonKeys()
