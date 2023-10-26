@@ -61,6 +61,38 @@ class Game {
     }
 
     /**
+     * Defines a turn for a player: they select a word, ask another player for it, and handle the outcome.
+     */
+    fun takeTurnFor(player: Player) {
+        val word = player.getRandomWordFromHand()
+        val hashedWord = hashWithSeed(word)
+    
+        val otherPlayers = players.filter { element -> element != player }
+        val targetPlayer = otherPlayers.shuffled().first()
+    
+        println("${player.name} asks ${targetPlayer.name} for: $hashedWord")
+        val targetPlayerHasMatchingWord = askForHashedWord(targetPlayer, hashedWord)
+    
+        if (targetPlayerHasMatchingWord) {
+            exchangeWords(player, targetPlayer, word, hashedWord)
+        } else {
+            goFish(player)
+        }
+    
+        checkWinOrLose(player)
+    }
+
+    private fun checkWinOrLose(player: Player) {
+        if (player.skeletonKeys == 0) {
+            players.remove(player)
+            println("${player.name} has lost the game, ${players.size} ${if (players.size == 1) "remains" else "remain"}.")
+        } else if (player.skeletonKeys == 3) {
+            println("${player.name} has won the game!")
+            println("Game Over!")
+        }
+    }
+    
+    /**
      * Executes the main game loop where players take turns until someone wins.
      * Eliminated players are removed from the game, and the game continues with the remaining players.
      */
@@ -103,39 +135,6 @@ class Game {
      */
     fun askForHashedWord(targetPlayer: Player, hashedWord: String): Boolean {
         return targetPlayer.wordList.any { hashWithSeed(it) == hashedWord }
-    }
-
-    /**
-     * Defines a turn for a player: they select a word, ask another player for it, and handle the outcome.
-     */
-    fun takeTurnFor(player: Player) {
-        val word = player.getRandomWordFromHand()
-        val hashedWord = hashWithSeed(word)
-    
-        val otherPlayers = players.filter { it != player }
-        val targetPlayer = otherPlayers.shuffled().first()
-    
-        println("${player.name} asks ${targetPlayer.name} for: $hashedWord")
-        val targetPlayerHasMatchingWord = askForHashedWord(targetPlayer, hashedWord)
-    
-        if (targetPlayerHasMatchingWord) {
-            exchangeWords(player, targetPlayer, word, hashedWord)
-        } else {
-            goFish(player)
-        }
-    
-        checkWinOrLose(player)
-    }
-
-    private fun checkWinOrLose(player: Player) {
-        if (player.skeletonKeys <= 0) {
-            println("${player.name} has lost the game.")
-            players.remove(player)
-        } else if (player.skeletonKeys >= 3) {
-            println("${player.name} has won the game!")
-            println("Game Over!")
-            players.clear() // Remove all remaining players from the game
-        }
     }
     
     private fun exchangeWords(player: Player, targetPlayer: Player, word: String, hashedWord: String) {
@@ -225,11 +224,12 @@ fun main() {
     val player1 = Player("Sean")
     val player2 = Player("Jeff")
     val player3 = Player("Darsh")
+    val player4 = Player("Alice")
 
     // Load words for the game from a CSV file
     val words = File("wordlist.csv").readText().split(",").map { it.trim() }
 
-    val game = Game(listOf(player1, player2, player3), words)
+    val game = Game(listOf(player1, player2, player3, player4), words)
 
     // Load seed words and select a random one for hashing purposes
     val seedWords = File("seedlist.csv").readText().split(",").map { it.trim() }
