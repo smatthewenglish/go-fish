@@ -205,13 +205,13 @@ class Player(val name: String) {
 
     fun increaseSkeletonKeys(word: String) {
         skeletonKeys++
-        println("${name} now has ${skeletonKeys} skeleton keys.")
+        println("${name} now has ${skeletonKeys} skeleton ${if (skeletonKeys == 1) "key" else "keys"}.")
         wordList.removeAll { listWord -> listWord == word }
     }
 
     fun decreaseSkeletonKeys() {
         skeletonKeys--
-        println("${name} loses a skeleton key. Now has ${skeletonKeys} skeleton keys.")
+        println("${name} loses a skeleton key. Now has skeleton ${if (skeletonKeys == 1) "key" else "keys"}.")
     }
 
 }
