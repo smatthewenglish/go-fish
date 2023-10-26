@@ -150,24 +150,20 @@ class Game {
         player.addWordToHand(word)
     
         if (player.checkForPair(word)) {
-            player.increaseSkeletonKeys()
-            println("${player.name} now has ${player.skeletonKeys} skeleton keys.")
-            player.removeAllInstancesOfWord(word)
+            player.increaseSkeletonKeys(word)
         }
     }
     
     private fun goFish(player: Player) {
-        val drawnWord = drawFromPile()
+        val drawnWord: String? = drawFromPile()
         if (drawnWord == null) {
             println("The draw pile is empty.")
         } else {
-            val drawnWordHashed = hashWithSeed(drawnWord)
+            val drawnWordHashed: String = hashWithSeed(drawnWord)
             println("${player.name} drew '$drawnWordHashed'.")
             player.addWordToHand(drawnWord)
         }
-    
         player.decreaseSkeletonKeys()
-        println("${player.name} loses a skeleton key. Now has ${player.skeletonKeys} skeleton keys.")
     }
     
 }
@@ -201,23 +197,22 @@ class Player(val name: String) {
     }
 
     fun checkForPair(word: String): Boolean {
-        return wordList.count { it == word } >= 2
+        return wordList.count { listWord -> listWord == word } >= 2
     }
 
     fun getRandomWordFromHand(): String {
         return wordList.shuffled().first()
     }
 
-    fun increaseSkeletonKeys() {
+    fun increaseSkeletonKeys(word: String) {
         skeletonKeys++
+        println("${name} now has ${skeletonKeys} skeleton keys.")
+        wordList.removeAll { listWord -> listWord == word }
     }
 
     fun decreaseSkeletonKeys() {
         skeletonKeys--
-    }
-
-    fun removeAllInstancesOfWord(word: String) {
-        wordList.removeAll { it == word }
+        println("${name} loses a skeleton key. Now has ${skeletonKeys} skeleton keys.")
     }
 
 }
