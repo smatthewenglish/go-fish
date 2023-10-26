@@ -67,7 +67,7 @@ class Game {
         val word = player.getRandomWordFromHand()
         val hashedWord = hashWithSeed(word)
     
-        val otherPlayers = players.filter { element -> element != player }
+        val otherPlayers = players.filter { listPlayer -> listPlayer != player }
         val targetPlayer = otherPlayers.shuffled().first()
     
         println("${player.name} asks ${targetPlayer.name} for: $hashedWord")
