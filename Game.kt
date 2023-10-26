@@ -78,14 +78,6 @@ class Game {
         } else {
             goFish(player)
         }
-    
-        if (player.skeletonKeys == 0) {
-            players.remove(player)
-            println("${player.name} has lost the game, ${players.size} ${if (players.size == 1) "remains" else "remain"}.")
-        } else if (player.skeletonKeys == 3) {
-            println("${player.name} has won the game!")
-            println("Game Over!")
-        }
     }
     
     /**
@@ -101,8 +93,13 @@ class Game {
                     break
                 }
                 takeTurnFor(player)
-                if (player.skeletonKeys == 3) {
-                    return 
+                if (player.skeletonKeys == 0) {
+                    players.remove(player)
+                    println("${player.name} has lost the game, ${players.size} ${if (players.size == 1) "remains" else "remain"}.")
+                } else if (player.skeletonKeys == 3) {
+                    println("${player.name} has won the game!")
+                    println("Game Over!")
+                    return
                 }
             }
         }
