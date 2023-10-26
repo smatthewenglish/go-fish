@@ -88,32 +88,32 @@ class Game {
      * Executes the main game loop where players take turns until someone wins.
      * Eliminated players are removed from the game, and the game continues with the remaining players.
      */
-    fun playGame(seedWord: String) {
-        initialize(seedWord)
-        
-        while (players.size > 1) {
-            for (player in players.toList()) {
-                if(players.size == 1){
-                    printWinner(player)
-                    return
-                }
-                takeTurnFor(player)
-                if (player.skeletonKeys == 0) {
-                    players.remove(player)
-                    println("${player.name} has lost the game, ${players.size} ${if (players.size == 1) "remains" else "remain"}.")
-                }
-                if (player.skeletonKeys == 3) {
-                    printWinner(player)
-                    return
-                }
-            }
-        }
-        if (players.isEmpty()) {
+    fun playGame(currentPlayers: MutableList<Player>, currentPlayerIndex: Int = 0) {
+        // Base conditions
+        if (currentPlayers.isEmpty()) {
             println("It's a draw!")
             println("Game Over!")
             return
         }
-        printWinner(players[0])
+        if (currentPlayers.size == 1) {
+            printWinner(currentPlayers[0])
+            return
+        }
+        // Get current player
+        val currentPlayer = currentPlayers[currentPlayerIndex]
+        takeTurnFor(currentPlayer)
+    
+        if (currentPlayer.skeletonKeys == 0) {
+            currentPlayers.remove(currentPlayer)
+            println("${currentPlayer.name} has lost the game, ${currentPlayers.size} ${if (currentPlayers.size == 1) "remains" else "remain"}.")
+            playGame(currentPlayers, currentPlayerIndex)
+        } else if (currentPlayer.skeletonKeys == 3) {
+            printWinner(currentPlayer)
+        } else {
+            // Move to next player or wrap around
+            val nextIndex = (currentPlayerIndex + 1) % currentPlayers.size
+            playGame(currentPlayers, nextIndex)
+        }
     }
 
     /**
@@ -226,15 +226,17 @@ fun main() {
     val player2 = Player("Jeff")
     val player3 = Player("Darsh")
     val player4 = Player("Alice")
+    val players: MutableList<Player> = listOf(player1, player2, player3, player4).toMutableList()
 
     // Load words for the game from a CSV file
     val words = File("wordlist.csv").readText().split(",").map { it.trim() }
 
-    val game = Game(listOf(player1, player2, player3, player4), words)
+    val game = Game(players, words)
 
     // Load seed words and select a random one for hashing purposes
     val seedWords = File("seedlist.csv").readText().split(",").map { it.trim() }
     val randomSeedWord = seedWords.shuffled().first()
-    game.playGame(randomSeedWord)
+    game.initialize(randomSeedWord)
+    game.playGame(players)
 
 }
