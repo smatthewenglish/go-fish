@@ -65,16 +65,16 @@ class Game {
      */
     fun takeTurnFor(player: Player) {
         val word = player.getRandomWordFromHand()
-        val hashedWord = hashWithSeed(word)
+        val wordHashed = hashWithSeed(word)
     
         val opponentList = players.filter { listPlayer -> listPlayer != player }
         val opponent = opponentList.shuffled().first()
     
-        println("${player.name} asks ${opponent.name} for: $hashedWord")
-        val targetPlayerHasMatchingWord = askForHashedWord(opponent, hashedWord)
+        println("${player.name} asks ${opponent.name} for: $wordHashed")
+        val targetPlayerHasMatchingWord = askForHashedWord(opponent, wordHashed)
     
         if (targetPlayerHasMatchingWord) {
-            exchangeWords(player, opponent, word, hashedWord)
+            exchangeWords(player, opponent, word, wordHashed)
         } else {
             goFish(player)
         }
