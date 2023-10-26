@@ -64,11 +64,11 @@ class Game {
      * Defines a turn for a player: they select a word, ask another player for it, and handle the outcome.
      */
     fun takeTurnFor(player: Player) {
-        val word = player.getRandomWordFromHand()
-        val wordHashed = hashWithSeed(word)
+        val word: String = player.getRandomWordFromHand()
+        val wordHashed: String = hashWithSeed(word)
     
-        val opponentList = players.filter { listPlayer -> listPlayer != player }
-        val opponent = opponentList.shuffled().first()
+        val opponentList: List<Player> = players.filter { listPlayer -> listPlayer != player }
+        val opponent: Player = opponentList.shuffled().first()
     
         println("${player.name} asks ${opponent.name} for: $wordHashed")
         val targetPlayerHasMatchingWord = askForHashedWord(opponent, wordHashed)
