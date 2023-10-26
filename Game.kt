@@ -96,19 +96,19 @@ class Game {
                 if (player.skeletonKeys == 0) {
                     players.remove(player)
                     println("${player.name} has lost the game, ${players.size} ${if (players.size == 1) "remains" else "remain"}.")
-                } else if (player.skeletonKeys == 3) {
+                }
+                if (player.skeletonKeys == 3) {
                     println("${player.name} has won the game!")
                     println("Game Over!")
                     return
                 }
             }
         }
-        if (players.size == 1) {
-            println("${players[0].name} is the winner!")
-        } else if (players.isEmpty()) {
+        if (players.isEmpty()) {
             println("It's a draw!")
             println("Game Over!")
         }
+        println("${players[0].name} is the winner!")
     }
 
     /**
