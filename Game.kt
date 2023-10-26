@@ -79,10 +79,6 @@ class Game {
             goFish(player)
         }
     
-        checkWinOrLose(player)
-    }
-
-    private fun checkWinOrLose(player: Player) {
         if (player.skeletonKeys == 0) {
             players.remove(player)
             println("${player.name} has lost the game, ${players.size} ${if (players.size == 1) "remains" else "remain"}.")
