@@ -70,7 +70,7 @@ class Game {
         val opponentList: List<Player> = players.filter { listPlayer -> listPlayer != player }
         val opponent: Player = opponentList.shuffled().first()
     
-        println("${player.name} asks ${opponent.name} for: $wordHashed.")
+        println("${player.name} asks ${opponent.name} for $wordHashed.")
         val targetPlayerHasMatchingWord: Boolean = askForHashedWord(opponent, wordHashed)
     
         if (targetPlayerHasMatchingWord) {
